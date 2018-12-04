@@ -104,6 +104,7 @@ public class P04Sudoku {
                                 case 2:
                                     System.out.println("- SUDOKU RÁNDOM NO JUGADO -");
                                     getSudokuRandom();
+                                    System.out.println("INFO - Sudoku random (solved) :" + sudokuActual.getSolved());
                                     break;
                                 case 3:
                                     System.out.println("- FINALIZAR SUDOKU -");
@@ -404,15 +405,35 @@ public class P04Sudoku {
         }
     }
     
-    //Función que establece un sudoku random no jugado al usuario
+    //Función que establece un sudoku random no jugado al usuario y devuelve un boolean dependiendo si lo ha encontrado
     public static void getSudokuRandom(){
         
+        int contador = 0;
+        for (Sudoku s : sudokus.getSudoku()){
+            if(!userPlayedSudoku(s)){
+                sudokusHM.put(contador, s);
+                contador ++;
+                //sudokuActual = s;
+            }
+        }
+        
+        int nRandom = (int) Math.floor(Math.random()*contador);
+        //TODO - SEGUIR CON OBTENER SUDOKU RANDOM
+        sudokuActual = sudokusHM.get(nRandom);
     }
     
-    //Función que devuelve un boolean dependiendo de si el usuario a registrado el sudoku en los historiales a partir de un usuario y un sudoku
-    public static void sudokuPlayed(){
+    //Función que devuelve un boolean dependiendo de si el usuario actual a registrado el sudoku en los historiales a partir de un sudoku
+    public static boolean userPlayedSudoku(Sudoku sudoku){
     
-        for (Historical h : historiales){
+        boolean played = false;
+        
+        for (Historicals.Historical h : historiales.getHistorical()){
+            if(h.getUser().getUsername().equals(usuarioActual.getUsername())){
+                if(h.getSudoku().getSolved().equals(sudoku.getSolved())){
+                    played = true;
+                }
+            }
         }
+        return played;
     }
 }
