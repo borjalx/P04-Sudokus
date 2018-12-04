@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
-    <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/sudokus.xsd" uri="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
-    <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/historicals.xsd" uri="xml-resources/jaxb/Historicals/historicals.xsd"/>
     <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/users.xsd" uri="xml-resources/jaxb/Users/users.xsd"/>
+    <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/historicals.xsd" uri="xml-resources/jaxb/Historicals/historicals.xsd"/>
+    <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/sudokus.xsd" uri="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
 </catalog>

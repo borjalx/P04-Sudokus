@@ -11,22 +11,8 @@
     <target name="jaxb-code-generation" depends="xjc-typedef-target,-do-init,-init-macrodef-javac">
         <mkdir dir="${build.generated.sources.dir}/jaxb" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
         <mkdir dir="build/generated/jaxbCache" xmlns:s="http://xml.netbeans.org/schema/JAXBWizConfig"/>
-        <mkdir dir="build/generated/jaxbCache/Sudokus"/>
-        <xjc package="model" destdir="build/generated/jaxbCache/Sudokus" catalog="catalog.xml">
-            <classpath>
-                <pathelement location="${src.dir}"/>
-                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
-            </classpath>
-            <arg value="-xmlschema"/>
-            <schema file="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
-            <depends file="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
-            <produces dir="build/generated/jaxbCache/Sudokus"/>
-        </xjc>
-        <copy todir="${build.generated.sources.dir}/jaxb">
-            <fileset dir="build/generated/jaxbCache/Sudokus"/>
-        </copy>
         <mkdir dir="build/generated/jaxbCache/Historicals"/>
-        <xjc package="model" destdir="build/generated/jaxbCache/Historicals" catalog="catalog.xml">
+        <xjc package="historiales" destdir="build/generated/jaxbCache/Historicals" catalog="catalog.xml">
             <classpath>
                 <pathelement location="${src.dir}"/>
                 <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
@@ -40,7 +26,7 @@
             <fileset dir="build/generated/jaxbCache/Historicals"/>
         </copy>
         <mkdir dir="build/generated/jaxbCache/Users"/>
-        <xjc package="model" destdir="build/generated/jaxbCache/Users" catalog="catalog.xml">
+        <xjc package="usuarios" destdir="build/generated/jaxbCache/Users" catalog="catalog.xml">
             <classpath>
                 <pathelement location="${src.dir}"/>
                 <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
@@ -52,6 +38,20 @@
         </xjc>
         <copy todir="${build.generated.sources.dir}/jaxb">
             <fileset dir="build/generated/jaxbCache/Users"/>
+        </copy>
+        <mkdir dir="build/generated/jaxbCache/Sudokus"/>
+        <xjc package="sudokus" destdir="build/generated/jaxbCache/Sudokus" catalog="catalog.xml">
+            <classpath>
+                <pathelement location="${src.dir}"/>
+                <pathelement path="${jaxbwiz.xjcrun.classpath}"/>
+            </classpath>
+            <arg value="-xmlschema"/>
+            <schema file="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
+            <depends file="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
+            <produces dir="build/generated/jaxbCache/Sudokus"/>
+        </xjc>
+        <copy todir="${build.generated.sources.dir}/jaxb">
+            <fileset dir="build/generated/jaxbCache/Sudokus"/>
         </copy>
     </target>
 </project>
