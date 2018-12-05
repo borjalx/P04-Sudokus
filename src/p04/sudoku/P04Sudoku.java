@@ -482,6 +482,8 @@ public class P04Sudoku {
             h.setTime(time);
             h.setUsername(usuarioActual.getUsername());
             System.out.println("INFO - Description sudokuActual : " + sudokuActual.getDescription());
+            Historicals.Historical.Sudoku s = new Historicals.Historical.Sudoku();
+            h.setSudoku(s);
             h.getSudoku().setDescription(sudokuActual.getDescription());
             System.out.println("INFO - Level sudokuActual : " + sudokuActual.getLevel());
             h.getSudoku().setLevel(sudokuActual.getLevel());

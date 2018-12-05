@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<historicals/>
+<historicals>
+    <historical time="12">
+        <username>mariauoc</username>
+        <sudoku level="9" description="Hard">
+            <problem>7.......4...1.7....546.829..8..5..3.9.......8.6..8..1..175.294....4.3...3.......5</problem>
+            <solved>736925184298147356154638297481256739972314568563789412817562943625493871349871625</solved>
+        </sudoku>
+    </historical>
+</historicals>
