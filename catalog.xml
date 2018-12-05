@@ -3,4 +3,6 @@
     <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/users.xsd" uri="xml-resources/jaxb/Users/users.xsd"/>
     <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/historicals.xsd" uri="xml-resources/jaxb/Historicals/historicals.xsd"/>
     <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/sudokus.xsd" uri="xml-resources/jaxb/Sudokus/sudokus.xsd"/>
+    <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/historicals.xml" uri="xml-resources/jaxb/Historicals/historicals.xml"/>
+    <system systemId="file:/C:/Users/Borja%20S/Documents/NetBeansProjects/P04-Sudoku/historicals2.xsd" uri="xml-resources/jaxb/Historicals/historicals2.xsd"/>
 </catalog>

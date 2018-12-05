@@ -58,7 +58,7 @@ public class P04Sudoku {
 
     //Auxiliares
     static User usuarioActual;
-    static Sudoku sudokuActual = new Sudoku();
+    static Sudoku sudokuActual;
 
     public static void main(String[] args) {
         // Cargamos los List con los datos de los XML
@@ -91,9 +91,9 @@ public class P04Sudoku {
                         int userOption = -1;
 
                         System.out.println("INFO - Bienvenid@ " + usuarioActual.getName());
-                        
+
                         while (userOption != 0) {
-                            
+
                             showUserMenu();
                             userOption = Auxiliares.pedirNumeroRango("OPCION USUARIO : ", 0, 4);
                             switch (userOption) {
@@ -108,6 +108,7 @@ public class P04Sudoku {
                                     break;
                                 case 3:
                                     System.out.println("- FINALIZAR SUDOKU -");
+                                    finalizarSudoku();
                                     break;
                                 case 4:
                                     System.out.println("- TIEMPO MEDIO -");
@@ -117,6 +118,7 @@ public class P04Sudoku {
                                     System.out.println("Bye querid@ " + usuarioActual.getName());
                                     System.out.println("Más conocid@ como " + usuarioActual.getUsername());
                                     usuarioActual = null;
+                                    sudokuActual = null;
                                     break;
                             }
                         }
@@ -178,6 +180,9 @@ public class P04Sudoku {
                 fr.close();
                 //carga los sudokus del txt al xml
 
+                //marshallea
+                marshallearSudokus();
+
             } catch (FileNotFoundException ex) {
                 Logger.getLogger(P04Sudoku.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
@@ -187,10 +192,10 @@ public class P04Sudoku {
         } else {
             System.out.println("INFO - El XML de Sudokus existe");
         }
-        //marshallea
-        marshallearSudokus();
+
         //unmarshallea
         unmarshallearSudokus();
+
     }
 
     //Función que unmarshallea los sudokus
@@ -355,9 +360,9 @@ public class P04Sudoku {
     public static void login() {
         String username = Auxiliares.pedirCadena("Nombre de usuario = ");
         String password = Auxiliares.pedirCadena("Contraseña = ");
-        
+
         boolean encontrado = false;
-        
+
         for (User user : usuarios.getUser()) {
             if (user.getUsername().equals(username)) {
                 if (user.getPassword().equals(password)) {
@@ -370,8 +375,8 @@ public class P04Sudoku {
                 encontrado = true;
             }
         }
-        
-        if(!encontrado){
+
+        if (!encontrado) {
             System.out.println("ERROR - Nombre de usuario (username) no encontrado");
         }
     }
@@ -388,7 +393,7 @@ public class P04Sudoku {
                     usuarioActual.setPassword(newPass);
 
                     for (User u : usuarios.getUser()) {
-                        if(u.getUsername().equals(usuarioActual.getUsername())){
+                        if (u.getUsername().equals(usuarioActual.getUsername())) {
                             u.setPassword(newPass);
                             marshallearUsuarios();
                         }
@@ -404,36 +409,92 @@ public class P04Sudoku {
             System.out.println("ERROR - No hay usuario registrado");
         }
     }
-    
-    //Función que establece un sudoku random no jugado al usuario y devuelve un boolean dependiendo si lo ha encontrado
-    public static void getSudokuRandom(){
-        
+
+    //Función que establece un sudoku random no jugado al usuario
+    public static void getSudokuRandom() {
+
+        int nSudokus = sudokus.getSudoku().size();
+        System.out.println("INFO - Número de sudokus : " + nSudokus);
+        int nRandom = (int) Math.floor(Math.random() * nSudokus + 1);
+        //int random = (int )(Math.random() * 50 + 1);
+        System.out.println("INFO - Número random : " + nRandom);
+
+        //Damos sudoku aleatorio de los sudokus
+        Sudoku s = sudokus.getSudoku().get(nRandom);
+
         int contador = 0;
-        for (Sudoku s : sudokus.getSudoku()){
-            if(!userPlayedSudoku(s)){
-                sudokusHM.put(contador, s);
-                contador ++;
-                //sudokuActual = s;
+        //Mientras no lo haya jugado seguimos dando sudokus
+        while (userPlayedSudoku(s) && contador < 100) {
+            if (contador >= 100) {
+                System.out.println("INFO - Has jugado todos los Sudokus");
+            } else {
+                nRandom = (int) Math.floor(Math.random() * nSudokus + 1);
+                s = sudokus.getSudoku().get(nRandom);
+                System.out.println("INFO - Sudoku nº" + nRandom + " jugado");
+                contador++;
             }
         }
-        
-        int nRandom = (int) Math.floor(Math.random()*contador);
-        //TODO - SEGUIR CON OBTENER SUDOKU RANDOM
-        sudokuActual = sudokusHM.get(nRandom);
+        //Establecemos el sudoku actual con el sudoku random
+        sudokuActual = s;
+        System.out.println("INFO - Sudoku actual actualizado");
+        //System.out.println("Level : " + sudokuActual.getLevel());
+        //System.out.println("Problem : " + sudokuActual.getProblem());
+        //System.out.println("Solved : " + sudokuActual.getSolved());
     }
-    
+
     //Función que devuelve un boolean dependiendo de si el usuario actual a registrado el sudoku en los historiales a partir de un sudoku
-    public static boolean userPlayedSudoku(Sudoku sudoku){
-    
+    public static boolean userPlayedSudoku(Sudoku sudoku) {
+
         boolean played = false;
-        
-        for (Historicals.Historical h : historiales.getHistorical()){
-            if(h.getUser().getUsername().equals(usuarioActual.getUsername())){
-                if(h.getSudoku().getSolved().equals(sudoku.getSolved())){
-                    played = true;
+        if (historiales.getHistorical().isEmpty()) {
+            System.out.println("INFO - No hay ningún historial registrado");
+        } else {
+            for (Historicals.Historical h : historiales.getHistorical()) {
+                if (h.getUsername().equals(usuarioActual.getUsername())) {
+                    if (h.getSudoku().getSolved().equals(sudoku.getSolved())) {
+                        if (h.getSudoku().getProblem().equals(sudoku.getProblem())) {
+                            if (h.getSudoku().getLevel() == sudoku.getLevel()) {
+                                if (h.getSudoku().getDescription().equals(sudoku.getDescription())) {
+                                    played = true;
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+
         return played;
+    }
+
+    //Función que registra en el historial un sudoku acabado, solicitando el tiempo
+    public static void finalizarSudoku() {
+
+        //TODO - No registra correctamente el historial (aún)
+        if (sudokuActual == null) {
+            System.out.println("ERROR - Obtén un sudoku antes");
+        } else {
+            //Obtenemos el tiempo
+            int time = Auxiliares.pedirNumero("Tiempo en completarlo (segundos) = ");
+            //Creamos un historial 
+            Historicals.Historical h = new Historicals.Historical();
+            //Añadimos los atributos al historial (añadimos el usuario y el sudoku actual y el tiempo solicitado)
+            h.setTime(time);
+            h.setUsername(usuarioActual.getUsername());
+            System.out.println("INFO - Description sudokuActual : " + sudokuActual.getDescription());
+            h.getSudoku().setDescription(sudokuActual.getDescription());
+            System.out.println("INFO - Level sudokuActual : " + sudokuActual.getLevel());
+            h.getSudoku().setLevel(sudokuActual.getLevel());
+            System.out.println("INFO - Problem sudokuActual : " + sudokuActual.getProblem());
+            h.getSudoku().setProblem(sudokuActual.getProblem());
+            System.out.println("INFO - Solved sudokuActual : " + sudokuActual.getSolved());
+            h.getSudoku().setSolved(sudokuActual.getSolved());
+            //Añadimos el historial a los historiales
+            historiales.getHistorical().add(h);
+            //hacemos un marshall
+            marshallearHistoriales();
+            System.out.println("INFO - Historial registrado");
+        }
+
     }
 }
